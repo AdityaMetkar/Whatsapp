@@ -1,0 +1,36 @@
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+
+# Initialise Chatbot
+chatbot = ChatBot(
+    'Training Example',
+    storage_adapter="chatterbot.storage.SQLStorageAdapter",
+    preprocessors=['chatterbot.preprocessors.clean_whitespace'],
+    logic_adapters=[
+        'chatterbot.logic.MathematicalEvaluation','MyTimeLogic.MyTimeLogicAdapter',
+        'chatterbot.logic.BestMatch',
+        {
+            'import_path': 'chatterbot.logic.BestMatch',
+            'default_response': 'I am sorry, but I do not understand.',
+            'maximum_similarity_threshold': 0.6
+        }
+        ]
+    )
+
+trainer = ListTrainer(chatbot)
+
+# Create a sample dataset of question-answer pairs 
+# Ex-
+# dataset=[["Hello","Hello, how may i help you"],[q2,a2],[q3,a3],.......]
+
+
+# Training the Chatbot
+for sample in dataset:
+  for q,a in sample:
+    trainer.train(
+      [
+        q.lower(),a.lower()
+      ])
+    
+# This will create a sqlite database which we will use to predict responses
+# Note- Higher training set with variety gives best results
