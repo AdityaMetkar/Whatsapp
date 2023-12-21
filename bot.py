@@ -1,6 +1,3 @@
-# pip install flask,U flask-cors
-#note chatterbot was uninstalled so reinstall specific V again 
-
 from flask import Flask, jsonify,request
 from flask_cors import CORS
 from chatterbot import ChatBot
